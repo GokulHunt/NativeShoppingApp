@@ -1,22 +1,33 @@
 import React from 'react';
-import { View, Text, Image, Button, StyleSheet } from 'react-native';
+import { View, Text, Image, Button, TouchableOpacity, TouchableNativeFeedback, StyleSheet, Platform } from 'react-native';
 
 import Colors from '../../constants/Colors';
 import FontSizes from '../../constants/FontSizes';
 
 const ProductItem = props => {
+  let TouchableComponent = TouchableOpacity;
+
+  if ( Platform.OS === 'android' && Platform.Version >= 21) {
+    TouchableComponent = TouchableNativeFeedback
+  }
+
   return (
-    <View style={styles.product}>
-      <Image style={styles.image} source={{ uri: props.image }}/>
-      <View style={styles.details}>
-        <Text style={styles.title}>{props.title}</Text>
-        <Text style={styles.price}>${props.price.toFixed(2)}</Text>
+
+  <View style={styles.product}>
+    <TouchableComponent onPress={props.onViewDetails} useForeground={true}>
+      <View style={styles.touchable}>
+        <Image style={styles.image} source={{ uri: props.image }}/>
+        <View style={styles.details}>
+          <Text style={styles.title}>{props.title}</Text>
+          <Text style={styles.price}>${props.price.toFixed(2)}</Text>
+        </View>
+        <View style={styles.buttonsContainer}>
+          <Button color={Colors.primaryColor} title='View Details' onPress={props.onViewDetails} />
+          <Button color={Colors.accentColor} title='Add To Cart' onPress={props.onAddToCart} />
+        </View>
       </View>
-      <View style={styles.buttonsContainer}>
-        <Button color={Colors.primaryColor} title='View Details' onPress={props.onViewDetails} />
-        <Button color={Colors.accentColor} title='Add To Cart' onPress={props.onAddToCart} />
-      </View>
-    </View>
+    </TouchableComponent>
+  </View>
   );
 
 }
@@ -34,6 +45,9 @@ const styles = StyleSheet.create({
     margin: 10,
     overflow: 'hidden'
   },
+  touchable: {
+    flex: 1
+  },
   details: {
     alignItems: 'center',
     height: '15%',
@@ -44,10 +58,12 @@ const styles = StyleSheet.create({
     height: '60%'
   },
   title: {
+    fontFamily: 'open-sans-bold',
     fontSize: FontSizes.productTitle,
     marginVertical: 5
   },
   price: {
+    fontFamily: 'open-sans',
     fontSize: FontSizes.price,
     color: Colors.darkGrayColor
   },
