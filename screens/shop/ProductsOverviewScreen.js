@@ -1,12 +1,18 @@
 import React from 'react';
-import { View, Text, FlatList, StyleSheet } from 'react-native';
+import { View, Text, FlatList, StyleSheet, Platform } from 'react-native';
 
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 
 import ProductItem from '../../components/shop/ProductItem';
+import CustomHeaderIcon from '../../components/UI/CustomHeaderButton';
+
+
+import * as cartAction from '../../store/actions/cartAction';
 
 const ProductsOverviewScreen = props => {
   const products = useSelector(state => state.products.availableProducts);
+  const dispatch = useDispatch();
 
   return (
     <View style={styles.screen}>
@@ -21,14 +27,26 @@ const ProductsOverviewScreen = props => {
                     title: itemData.item.title
                   }
                 })
-              }} onAddToCart={() => {}}/>
+              }}
+              onAddToCart={() => {
+                dispatch(cartAction.addToCart(itemData.item));
+              }}/>
       }}/>
     </View>
   );
 }
 
-ProductsOverviewScreen.navigationOptions = {
-  headerTitle: 'All Products'
+ProductsOverviewScreen.navigationOptions = navdata => {
+  return {
+    headerTitle: 'All Products',
+    headerRight: <HeaderButtons HeaderButtonComponent={CustomHeaderIcon}>
+      <Item title='Cart' iconName={ Platform.OS === 'android' ? 'md-cart' : 'ios-cart'} onPress={() => {
+        navdata.navigation.navigate({
+          routeName: 'Cart'
+        })
+      }}/>
+    </HeaderButtons>
+  }
 }
 
 const styles = StyleSheet.create({
