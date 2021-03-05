@@ -5,7 +5,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 
 import ProductItem from '../../components/shop/ProductItem';
-import CustomHeaderIcon from '../../components/UI/CustomHeaderButton';
+import CustomHeaderButton from '../../components/UI/CustomHeaderButton';
 
 
 import * as cartAction from '../../store/actions/cartAction';
@@ -39,7 +39,12 @@ const ProductsOverviewScreen = props => {
 ProductsOverviewScreen.navigationOptions = navdata => {
   return {
     headerTitle: 'All Products',
-    headerRight: <HeaderButtons HeaderButtonComponent={CustomHeaderIcon}>
+    headerLeft: <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
+        <Item title='Menu' iconName={ Platform.OS === 'android' ? 'md-menu' : 'ios-menu'} onPress={() => {
+          navdata.navigation.toggleDrawer();
+        }}/>
+     </HeaderButtons>,
+    headerRight: <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
       <Item title='Cart' iconName={ Platform.OS === 'android' ? 'md-cart' : 'ios-cart'} onPress={() => {
         navdata.navigation.navigate({
           routeName: 'Cart'

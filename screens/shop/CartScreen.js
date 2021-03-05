@@ -7,6 +7,7 @@ import CartItem from '../../components/shop/CartItem';
 import Colors from '../../constants/Colors';
 import FontSizes from '../../constants/FontSizes';
 import * as cartAction from '../../store/actions/cartAction';
+import * as ordersAction from '../../store/actions/ordersAction';
 
 const CartScreen = props => {
   const dispatch = useDispatch();
@@ -29,21 +30,27 @@ const CartScreen = props => {
     <View style={styles.screen}>
       <View style={styles.summary}>
         <Text style={styles.summaryText}>
-          Total: <Text style={styles.amountText}>${totalAmount.toFixed(2)}</Text>
+          Total: <Text style={styles.amountText}>${Math.abs(totalAmount.toFixed(2))}</Text>
         </Text>
-        <Button title='Order Now' color={Colors.accentColor} disabled={cartItems.length === 0}/>
+        <Button title='Order Now' color={Colors.accentColor} disabled={cartItems.length === 0} onPress={() => {
+          dispatch(ordersAction.addOrder(cartItems, totalAmount));
+        }}/>
       </View>
       <View>
         <FlatList data={cartItems} keyExtractor={(item, index) => item.productId} renderItem={itemData => {
           return <CartItem quantity={itemData.item.quantity} title={itemData.item.productTitle}
                 amount={itemData.item.sum} onRemove={() => {
                   dispatch(cartAction.removeFromCart(itemData.item.productId));
-                }}/>
+                }} fromCart />
         }} />
       </View>
 
     </View>
   );
+}
+
+CartScreen.navigationOptions = {
+  headerTitle: 'Your Cart'
 }
 
 const styles = StyleSheet.create({
