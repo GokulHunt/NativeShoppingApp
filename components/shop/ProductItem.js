@@ -3,6 +3,7 @@ import { View, Text, Image, Button, TouchableOpacity, TouchableNativeFeedback, S
 
 import Colors from '../../constants/Colors';
 import FontSizes from '../../constants/FontSizes';
+import Card from '../UI/Card';
 
 const ProductItem = props => {
   let TouchableComponent = TouchableOpacity;
@@ -13,7 +14,7 @@ const ProductItem = props => {
 
   return (
 
-  <View style={styles.product}>
+  <Card style={styles.product}>
     <TouchableComponent onPress={props.onSelect} useForeground={true}>
       <View style={styles.touchable}>
         <Image style={styles.image} source={{ uri: props.image }}/>
@@ -26,19 +27,13 @@ const ProductItem = props => {
         </View>
       </View>
     </TouchableComponent>
-  </View>
+  </Card>
   );
 
 }
 
 const styles = StyleSheet.create({
   product: {
-    shadowColor: Colors.grayColor,
-    shadowOpacity: 0.26,
-    shadowOffset: { height: 2, width: 1 },
-    shadowRadius: 4,
-    elevation: 5,
-    backgroundColor: Colors.whiteColor,
     borderRadius: 20,
     height: 300,
     margin: 10,

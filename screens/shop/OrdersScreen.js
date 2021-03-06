@@ -11,7 +11,9 @@ const OrdersScreen = props => {
   const orders = useSelector(state => state.orders.orders);
 
   return (
-    <FlatList data={orders} keyExtractor={(item, index) => item.id} renderItem={itemData => <OrderItem amount={itemData.item.totalAmount} date={itemData.item.readableDate} items={itemData.item.items}/>}/>
+    <View style={styles.screen}>
+      <FlatList data={orders} keyExtractor={(item, index) => item.id} renderItem={itemData => <OrderItem amount={itemData.item.totalAmount} date={itemData.item.readableDate} items={itemData.item.items}/>}/>
+    </View>
   );
 }
 
@@ -25,7 +27,9 @@ OrdersScreen.navigationOptions = navdata => {
 }
 
 const styles = StyleSheet.create({
-
+  screen: {
+    flex: 1
+  }
 });
 
 export default OrdersScreen;
