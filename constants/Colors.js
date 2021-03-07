@@ -4,5 +4,6 @@ export default {
   whiteColor: '#FFFFFF',
   blackColor: '#000000',
   grayColor: '#cccccc',
-  darkGrayColor: '#888888'
+  darkGrayColor: '#888888',
+  redColor: '#FF0000'
 }
